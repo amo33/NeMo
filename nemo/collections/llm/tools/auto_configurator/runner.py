@@ -14,19 +14,18 @@
 
 from typing import List, Optional
 
-from nemo.collections.llm.tools.auto_configurator.core.search_config import search_configs
-from nemo.lightning.pytorch.optim import CosineAnnealingScheduler, MegatronOptimizerModule
-from nemo.collections.common.tokenizers import SentencePieceTokenizer, AutoTokenizer
-from nemo.collections.llm.utils import Partial, Config
-from nemo.collections.llm.api import pretrain
-from nemo.collections.llm import PreTrainingDataModule
-from nemo.utils.exp_manager import TimingCallback
-from nemo import lightning as nl
-from nemo.utils import logging
-
+import torch
 from pytorch_lightning.loggers import TensorBoardLogger
 
-import torch
+from nemo import lightning as nl
+from nemo.collections.common.tokenizers import AutoTokenizer, SentencePieceTokenizer
+from nemo.collections.llm import PreTrainingDataModule
+from nemo.collections.llm.api import pretrain
+from nemo.collections.llm.tools.auto_configurator.core.search_config import search_configs
+from nemo.collections.llm.utils import Config, Partial
+from nemo.lightning.pytorch.optim import CosineAnnealingScheduler, MegatronOptimizerModule
+from nemo.utils import logging
+from nemo.utils.exp_manager import TimingCallback
 
 SUPPORTED_MODELS = [
     "gpt3",
@@ -153,7 +152,7 @@ class AutoConfigurator:
                 log=self._get_logger(name),
                 resume=None,
             )
-    
+
         return configs
 
     def _get_tokenizer(self, tokenizer_type, tokenizer_path):
@@ -168,7 +167,7 @@ class AutoConfigurator:
             **data_config,
             tokenizer=tokenizer,
         )
-    
+
     def _get_optim(self, optim_config):
 
         sched = Config(
@@ -185,7 +184,7 @@ class AutoConfigurator:
         )
 
     def _get_trainer(self, trainer_config, strategy):
-        
+
         return Config(
             nl.Trainer,
             **trainer_config,
