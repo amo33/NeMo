@@ -19,7 +19,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 
 from nemo import lightning as nl
 from nemo.collections.common.tokenizers import AutoTokenizer, SentencePieceTokenizer
-from nemo.collections.llm import PreTrainingDataModule, GPTModel
+from nemo.collections.llm import GPTModel, PreTrainingDataModule
 from nemo.collections.llm.api import pretrain
 from nemo.collections.llm.tools.auto_configurator.core.search_config import search_configs
 from nemo.collections.llm.utils import Config, Partial
