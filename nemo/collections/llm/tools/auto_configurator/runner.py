@@ -200,7 +200,6 @@ class AutoConfigurator:
             **data_config,
             tokenizer=tokenizer_config,
         )
-<<<<<<< HEAD
     
     def _get_optim(self, optim_config: Config) -> Config:
         """
@@ -210,11 +209,6 @@ class AutoConfigurator:
         :rtype: Config.
         """
         
-=======
-
-    def _get_optim(self, optim_config):
-
->>>>>>> 50a8ecc84f7b19892f731af59785c6a1c1d27f28
         sched = Config(
             CosineAnnealingScheduler,
             warmup_steps=10,
@@ -228,7 +222,6 @@ class AutoConfigurator:
             lr_scheduler=sched,
         )
 
-<<<<<<< HEAD
     def _get_trainer(self, trainer_config: dict, strategy: Config) -> Config:
         """
         Function that returns the trainer.
@@ -237,9 +230,6 @@ class AutoConfigurator:
         :return: trainer.
         :rtype: Config.
         """
-=======
-    def _get_trainer(self, trainer_config, strategy):
->>>>>>> 50a8ecc84f7b19892f731af59785c6a1c1d27f28
 
         return Config(
             nl.Trainer,
