@@ -14,19 +14,18 @@
 
 from typing import List, Optional
 
-from nemo.collections.llm.tools.auto_configurator.core.search_config import search_configs
-from nemo.lightning.pytorch.optim import CosineAnnealingScheduler, MegatronOptimizerModule
-from nemo.collections.common.tokenizers import SentencePieceTokenizer, AutoTokenizer
-from nemo.collections.llm.utils import Partial, Config
-from nemo.collections.llm.api import pretrain
-from nemo.collections.llm import PreTrainingDataModule
-from nemo.utils.exp_manager import TimingCallback
-from nemo import lightning as nl
-from nemo.utils import logging
-
+import torch
 from pytorch_lightning.loggers import TensorBoardLogger
 
-import torch
+from nemo import lightning as nl
+from nemo.collections.common.tokenizers import AutoTokenizer, SentencePieceTokenizer
+from nemo.collections.llm import PreTrainingDataModule
+from nemo.collections.llm.api import pretrain
+from nemo.collections.llm.tools.auto_configurator.core.search_config import search_configs
+from nemo.collections.llm.utils import Config, Partial
+from nemo.lightning.pytorch.optim import CosineAnnealingScheduler, MegatronOptimizerModule
+from nemo.utils import logging
+from nemo.utils.exp_manager import TimingCallback
 
 SUPPORTED_MODELS = [
     "gpt3",
@@ -171,7 +170,7 @@ class AutoConfigurator:
                 log=self._get_logger(name, path_to_logs),
                 resume=None,
             )
-    
+
         return configs
 
     def _get_tokenizer(self, tokenizer_type: str, tokenizer_path: str) -> Config:
@@ -201,6 +200,7 @@ class AutoConfigurator:
             **data_config,
             tokenizer=tokenizer_config,
         )
+<<<<<<< HEAD
     
     def _get_optim(self, optim_config: Config) -> Config:
         """
@@ -210,6 +210,11 @@ class AutoConfigurator:
         :rtype: Config.
         """
         
+=======
+
+    def _get_optim(self, optim_config):
+
+>>>>>>> 50a8ecc84f7b19892f731af59785c6a1c1d27f28
         sched = Config(
             CosineAnnealingScheduler,
             warmup_steps=10,
@@ -223,6 +228,7 @@ class AutoConfigurator:
             lr_scheduler=sched,
         )
 
+<<<<<<< HEAD
     def _get_trainer(self, trainer_config: dict, strategy: Config) -> Config:
         """
         Function that returns the trainer.
@@ -231,6 +237,9 @@ class AutoConfigurator:
         :return: trainer.
         :rtype: Config.
         """
+=======
+    def _get_trainer(self, trainer_config, strategy):
+>>>>>>> 50a8ecc84f7b19892f731af59785c6a1c1d27f28
 
         return Config(
             nl.Trainer,
