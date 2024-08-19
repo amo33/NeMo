@@ -41,7 +41,6 @@ jobs:
         id: main
         run: |
           parsed_string=$(echo ${{ inputs.test_to_run }} | jq -c --raw-input 'split(",")')
-          mkdir -p ${{ github.run_id }}
           echo "test_to_run=${parsed_string}" | tee -a "$GITHUB_OUTPUT"
 
   gpu-test:
