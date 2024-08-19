@@ -111,7 +111,6 @@ jobs:
     uses: ./.github/workflows/_test_template.yml
     if: contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') || contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') 
     with:
-      NAME: L0_Unit_Tests_GPU
       RUNNER: self-hosted-azure
       TIMEOUT: 60
       SCRIPT: |
@@ -133,7 +132,6 @@ jobs:
     needs: [cicd-test-container-setup]
     uses: ./.github/workflows/_test_template.yml
     with:
-      NAME: L0_Setup_Test_Data_And_Models
       RUNNER: self-hosted-azure
       SCRIPT: |
         python -m tests.setup --save_dir /home/TestData/nlp
