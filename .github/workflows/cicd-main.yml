@@ -109,7 +109,7 @@ jobs:
   L0_Unit_Tests_GPU:
     needs: [cicd-test-container-setup, pre-flight]
     uses: ./.github/workflows/_test_template.yml
-    if: contains(fromJSON(pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') || contains(fromJSON(pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') 
+    if: contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') || contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') 
     with:
       NAME: L0_Unit_Tests_GPU
       RUNNER: self-hosted-azure
