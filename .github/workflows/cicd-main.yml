@@ -43,10 +43,8 @@ jobs:
         run: |
           parsed_string=$(echo ${{ inputs.test_to_run }} | jq -c --raw-input 'split(",")')
           echo "test_to_run=${parsed_string}" | tee -a "$GITHUB_OUTPUT"
-
-          default=${{ contains(fromJSON(steps.main.outputs.test_to_run), 'all' }}
-
-          echo "default=$default" | tee -a "$GITHUB_OUTPUT" 
+          
+          echo "default=${{ contains(fromJSON(steps.main.outputs.test_to_run), 'all') }}" | tee -a "$GITHUB_OUTPUT" 
 
   gpu-test:
     needs: [pre-flight]
