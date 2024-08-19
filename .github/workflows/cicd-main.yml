@@ -136,7 +136,7 @@ jobs:
   L0_Setup_Test_Data_And_Models:
     needs: [cicd-test-container-setup]
     uses: ./.github/workflows/_test_template.yml
-    if: contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') || needs.pre-flight.outputs.all
+    if: contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Setup_Test_Data_And_Models') || needs.pre-flight.outputs.all
     with:
       RUNNER: self-hosted-azure
       SCRIPT: |
