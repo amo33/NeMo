@@ -35,16 +35,18 @@ jobs:
   pre-flight:
     runs-on: ubuntu-latest
     outputs:
-      test_to_run: ${{ steps.main.outputs.test_to_run }}
-      default: ${{ steps.main.outputs.default }}
+      test_to_run: ${{ steps.test_to_run.outputs.main }}
+      all: ${{ steps.all.outputs.main }}
     steps:
       - name: Parse test_to_run
-        id: main
+        id: test_to_run
         run: |
           parsed_string=$(echo ${{ inputs.test_to_run }} | jq -c --raw-input 'split(",")')
-          echo "test_to_run=${parsed_string}" | tee -a "$GITHUB_OUTPUT"
-
-          echo "default=${{ contains(fromJSON(steps.main.outputs.test_to_run), 'all') }}" | tee -a "$GITHUB_OUTPUT" 
+          echo "main=${parsed_string}" | tee -a "$GITHUB_OUTPUT"
+      - name: Parse all
+        id: all
+        run: |
+          echo "main=${{ contains(fromJSON(steps.test_to_run.outputs.main), 'all') }}" | tee -a "$GITHUB_OUTPUT" 
 
   gpu-test:
     needs: [pre-flight]
@@ -112,7 +114,7 @@ jobs:
   L0_Unit_Tests_GPU:
     needs: [cicd-test-container-setup, pre-flight]
     uses: ./.github/workflows/_test_template.yml
-    if: contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') || needs.pre-flight.outputs.default
+    if: contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') || needs.pre-flight.outputs.all
     with:
       RUNNER: self-hosted-azure
       TIMEOUT: 60
@@ -134,7 +136,7 @@ jobs:
   L0_Setup_Test_Data_And_Models:
     needs: [cicd-test-container-setup]
     uses: ./.github/workflows/_test_template.yml
-    if: contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') || needs.pre-flight.outputs.default
+    if: contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Unit_Tests_GPU') || needs.pre-flight.outputs.all
     with:
       RUNNER: self-hosted-azure
       SCRIPT: |
