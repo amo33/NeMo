@@ -134,7 +134,7 @@ jobs:
   #     IS_OPTIONAL: true
 
   L0_Setup_Test_Data_And_Models:
-    needs: [cicd-test-container-setup]
+    needs: [cicd-test-container-setup, pre-flight]
     uses: ./.github/workflows/_test_template.yml
     if: contains(fromJSON(needs.pre-flight.outputs.test_to_run), 'L0_Setup_Test_Data_And_Models') || needs.pre-flight.outputs.all
     with:
