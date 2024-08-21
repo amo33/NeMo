@@ -743,7 +743,7 @@ class CustomDataset(GPTSFTDataset):
                 position_ids[-1].extend(list(range(l - 1)))
                 cu_seqlens[-1].append(cu_seqlens[-1][-1] + l - 1)
             # set last seq to the max seq len because rope and attn kernels expect no padding
-            cu_seqlens[-1][-1] = max_length # 우리는 이렇게 하면 안된다. 음 batch로 들어오고 어떻게 작업해야 할까
+            cu_seqlens[-1][-1] = max_length
 
         assert len(input_ids[0]) == len(
             position_ids[0]
