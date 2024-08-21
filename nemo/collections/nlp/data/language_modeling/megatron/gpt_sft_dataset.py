@@ -667,7 +667,7 @@ class CustomDataset(GPTSFTDataset):
         return {'input_ids': input_ids, 'seq_boundaries': seq_boundaries, 'loss_mask': loss_mask}
     
     def __sizeof__(self, index: int) -> int:
-        return 1
+        return len(self.indexed_dataset[index]['input_ids'])
     
     def _load_dataset(self):
         try:
@@ -749,10 +749,10 @@ class CustomDataset(GPTSFTDataset):
             position_ids[0]
         ), "Dataset problem: input_ids and position_ids lengths don't match"
 
-        input_ids = self._collate_item(input_ids, pad_id=self.tokenizer.eos_id)
-        labels = self._collate_item(labels, pad_id=self.tokenizer.eos_id)
-        loss_mask = self._collate_item(loss_mask, pad_id=0)
-        position_ids = self._collate_item(position_ids, pad_id=0)
+        # input_ids = self._collate_item(input_ids, pad_id=self.tokenizer.eos_id)
+        # labels = self._collate_item(labels, pad_id=self.tokenizer.eos_id)
+        # loss_mask = self._collate_item(loss_mask, pad_id=0)
+        # position_ids = self._collate_item(position_ids, pad_id=0)
 
         processed_batch = {
             'tokens': torch.LongTensor(input_ids),
@@ -763,7 +763,7 @@ class CustomDataset(GPTSFTDataset):
         }
 
         if self.return_cu_seqlen:
-            cu_seqlens = self._collate_item(cu_seqlens, max_length=max(len(l) for l in cu_seqlens) + 1, pad_id=-1) 
+            # cu_seqlens = self._collate_item(cu_seqlens, max_length=max(len(l) for l in cu_seqlens) + 1, pad_id=-1) 
             
             # Pre-generate `cu_seqlens_argmin` and `max_seqlen` as CPU tensor to avoid device-to-host copies.
             cu_seqlens = torch.IntTensor(cu_seqlens)
